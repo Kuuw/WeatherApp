@@ -19,6 +19,7 @@ class WeatherAPI: WeatherAPIService {
         encodedPath = "/v1/forecast.json"
         parameters.append("key", Utils.API_KEY)
         parameters.append("lang", Utils.LANG)
+        parameters.append("days", Utils.DAYS)
     }
 
     override suspend fun fetchWeatherData(q: String): ForecastResponse {

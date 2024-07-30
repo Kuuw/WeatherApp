@@ -27,14 +27,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import dev.zuwu.weather.R
 import dev.zuwu.weather.model.ForecastResponse
+import dev.zuwu.weather.utils.IconSelector
 
 @Composable
 fun CurrentWeatherUI(forecast: ForecastResponse?) {
+    println(forecast?.current?.condition?.icon)
     // Current weather UI
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(top=16.dp, start=16.dp, end=16.dp)
             .height(96.dp)
     ) {
         Row(modifier = Modifier
@@ -46,7 +48,7 @@ fun CurrentWeatherUI(forecast: ForecastResponse?) {
                         .padding(8.dp)
                         .size(64.dp)
                         .aspectRatio(1f),
-                    painter = painterResource(id = R.drawable.partlycloudy),
+                    painter = painterResource(id = IconSelector(forecast?.current?.condition?.code.toString(), forecast?.current?.isDay ?: 1)),
                     contentDescription = ""
                 )
             }

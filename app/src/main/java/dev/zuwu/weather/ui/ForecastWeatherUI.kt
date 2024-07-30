@@ -29,9 +29,6 @@ import com.jaikeerthick.composable_graphs.composables.line.style.LineGraphColors
 import com.jaikeerthick.composable_graphs.composables.line.style.LineGraphFillType
 import com.jaikeerthick.composable_graphs.composables.line.style.LineGraphStyle
 import com.jaikeerthick.composable_graphs.composables.line.style.LineGraphVisibility
-import com.patrykandpatrick.vico.compose.cartesian.rememberVicoScrollState
-import com.patrykandpatrick.vico.compose.cartesian.rememberVicoZoomState
-import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 import dev.zuwu.weather.model.ForecastResponse
 import dev.zuwu.weather.viewmodels.ForecastViewModel
 import kotlinx.coroutines.runBlocking
@@ -40,7 +37,7 @@ import java.util.Date
 
 @SuppressLint("SimpleDateFormat")
 @Composable
-fun ForecastWeatherUI(forecast: ForecastResponse) {
+fun ForecastWeatherUI(forecast: ForecastResponse?) {
     // Forecast weather UI
     ElevatedCard(
         modifier = Modifier
@@ -57,7 +54,7 @@ fun ForecastWeatherUI(forecast: ForecastResponse) {
             var data = listOf<LineData>()
             val sdf = SimpleDateFormat("E HH:MM")
 
-            for(i in forecast.forecast.forecastday){
+            forecast?.forecast?.forecastday?.forEach { i ->
                 val time = Date(i.dateEpoch.toLong() * 1000)
                 data = data + LineData(sdf.format(time), i.day.avgtempC)
             }
@@ -89,17 +86,11 @@ fun ForecastWeatherUI(forecast: ForecastResponse) {
                             delta
                         }
                     )
-                    .width((forecast.forecast.forecastday.size * 80).dp),
+                    .width((forecast?.forecast?.forecastday?.size?.times(80) ?: 0).dp),
                 data = data,
                 onPointClick = {},
                 style = graphStyle
             )
-
-            val scrollState = rememberVicoScrollState()
-            val zoomState = rememberVicoZoomState()
-            val model = CartesianChartModelProducer
-
-
         }
     }
 }
