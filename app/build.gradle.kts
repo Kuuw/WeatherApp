@@ -55,41 +55,22 @@ android {
 
 
 dependencies {
-    // For Jetpack Compose.
-    implementation("com.patrykandpatrick.vico:compose:2.0.0-alpha.25")
-    implementation("com.patrykandpatrick.vico:compose-m3:2.0.0-alpha.25")
-    implementation("com.patrykandpatrick.vico:core:2.0.0-alpha.25")
-    implementation("com.patrykandpatrick.vico:views:2.0.0-alpha.25")
-
-
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-    implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
-
-
+    implementation("androidx.compose.material:material:1.6.8")
+    implementation("com.google.code.gson:gson:2.10.1")
 
     val ktorVer = "2.3.12"
-
     implementation("io.ktor:ktor-client-core:$ktorVer")
     implementation("io.ktor:ktor-client-android:$ktorVer")
     implementation("io.ktor:ktor-client-json:$ktorVer")
     implementation("io.ktor:ktor-client-serialization:$ktorVer")
     implementation("io.ktor:ktor-client-cio:$ktorVer")
-    implementation("io.ktor:ktor-client-serialization:$ktorVer")
-    implementation("io.ktor:ktor-client-content-negotiation:$ktorVer")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVer")
-    implementation("io.ktor:ktor-client-logging:$ktorVer")
-    implementation("io.ktor:ktor-serialization-jackson:$ktorVer")
-    implementation("io.ktor:ktor-client-jackson:$ktorVer")
-    //implementation("ch.qos.logback:logback-classic:1.5.5")
 
-    implementation("com.squareup.retrofit2:converter-jackson:2.4.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.4.0")
+
     implementation("com.github.jaikeerthick:Composable-Graphs:v1.2.3")
     implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
     implementation("com.google.android.gms:play-services-maps:19.0.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
     implementation("androidx.activity:activity-compose:1.9.1")

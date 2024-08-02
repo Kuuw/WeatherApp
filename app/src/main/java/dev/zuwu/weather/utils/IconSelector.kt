@@ -52,6 +52,6 @@ fun IconSelector(code: String?, isDay: Int): Int {
         "1276" -> R.drawable.thunderstorms_rain
         "1279" -> if(isDay == 1) {R.drawable.partly_cloudy_day_snow} else {R.drawable.partly_cloudy_night_snow}
         "1282" -> R.drawable.snowy
-        else -> if(isDay == 1) { R.drawable.clear } else { R.drawable.clear_night }
+        else -> if(isDay == 1) { R.drawable.clear} else { R.drawable.clear_night }
     }
 }

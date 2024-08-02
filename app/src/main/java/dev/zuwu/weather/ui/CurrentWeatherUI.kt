@@ -55,7 +55,6 @@ fun CurrentWeatherUI(forecast: ForecastResponse?) {
             Column(modifier = Modifier.fillMaxHeight()) {
                 Spacer(modifier = Modifier.size(4.dp))
                 Row{
-
                     Text(
                         forecast?.location?.name.toString(),
                         modifier = Modifier
