@@ -1,8 +1,11 @@
 package dev.zuwu.weather.utils
 
 
+import android.util.Log
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import dev.zuwu.weather.model.ForecastResponse
+import dev.zuwu.weather.model.SearchResponseItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,9 +14,20 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 
-fun parseJson(jsonString: String): ForecastResponse {
+
+fun parseJsonToForecast(jsonString: String): ForecastResponse {
     val gson = Gson()
     return gson.fromJson(jsonString, ForecastResponse::class.java)
+}
+
+fun parseJsonToSearch(jsonString: String): List<SearchResponseItem> {
+    Log.d("parseJsonToSearch", jsonString)
+    if (jsonString == "[]") {
+        return emptyList()
+    }
+    val gson = Gson()
+    val listType = object : TypeToken<List<SearchResponseItem>>() {}.type
+    return gson.fromJson(jsonString, listType)
 }
 
 fun fetchRawJson(url: String, callback: (String?) -> Unit) {
@@ -44,7 +58,7 @@ suspend fun fetchForecast(url: String): ForecastResponse? {
                 println("\n\n")
                 println(it)
                 println("\n\n")
-                forecastResponse = parseJson(it)
+                forecastResponse = parseJsonToForecast(it)
             }
         }
         // Wait for the fetchRawJson function to complete

@@ -1,25 +1,22 @@
-package dev.zuwu.weather
+package dev.zuwu.weather.views
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import dev.zuwu.weather.ui.CurrentWeatherUI
-import dev.zuwu.weather.ui.ForecastWeatherUI
-import dev.zuwu.weather.ui.TodayWeatherUI
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import dev.zuwu.weather.ui.theme.MaterialWeatherTheme
 import dev.zuwu.weather.utils.LocationUtils
+import dev.zuwu.weather.utils.PreferencesManager
 import dev.zuwu.weather.viewmodels.ForecastViewModel
 import dev.zuwu.weather.viewmodels.LocationViewModel
 import kotlinx.coroutines.runBlocking
@@ -48,25 +45,27 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun MyApp(locationViewModel: LocationViewModel) {
+    val navController = rememberNavController()
+
     val context = LocalContext.current
     val forecastVM = ForecastViewModel()
     val locUtil = LocationUtils(context, locationViewModel)
 
     locUtil.getLastKnownLocation()
     val location = locationViewModel.location.value
-
     runBlocking { forecastVM.getWeatherData("${location?.lat},${location?.lon}") }
-    val forecast = forecastVM.weatherData.value
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        Row(modifier = Modifier.height(128.dp).fillMaxWidth()) {
-            CurrentWeatherUI(forecast = forecast)
+    val PreferencesManager = PreferencesManager(context)
+    Log.d("Unit Preference: ", PreferencesManager.getData("UNIT_PREFERENCE", "Celcius"))
+
+    NavHost(navController = navController, startDestination = "MainWeatherScreen") {
+        composable("MainWeatherScreen") {
+            MainWeatherScreen(locUtil, forecastVM, locationViewModel,
+                { navController.navigate("SettingsScreen") }
+            )
         }
-        Row(modifier = Modifier.fillMaxWidth()) {
-            TodayWeatherUI(forecast = forecast)
-        }
-        Row(modifier = Modifier.fillMaxWidth()) {
-            ForecastWeatherUI(forecast = forecast)
+        composable("SettingsScreen") {
+            SettingsScreen({ navController.navigate("MainWeatherScreen") })
         }
     }
 }

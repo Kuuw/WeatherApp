@@ -4,10 +4,11 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Looper
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import dev.zuwu.weather.MainActivity
+import dev.zuwu.weather.views.MainActivity
 import dev.zuwu.weather.model.Coord
 import dev.zuwu.weather.viewmodels.LocationViewModel
 
@@ -49,6 +50,29 @@ class LocationUtils(val context: Context, val viewModel: LocationViewModel) {
             }
 
             _fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, android.os.Looper.getMainLooper())
+        } else {
+            requestLocationPermission()
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun getCurrentLocation() {
+        if (hasLocationPermission()) {
+            val locationRequest = com.google.android.gms.location.LocationRequest.Builder(
+                com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY, 1000L
+            ).build()
+
+            val locationCallback = object : com.google.android.gms.location.LocationCallback() {
+                override fun onLocationResult(locationResult: com.google.android.gms.location.LocationResult) {
+                    super.onLocationResult(locationResult)
+                    locationResult.lastLocation?.let { location ->
+                        viewModel.updateLocation(Coord(location.latitude, location.longitude))
+                        _fusedLocationClient.removeLocationUpdates(this)
+                    }
+                }
+            }
+
+            _fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
         } else {
             requestLocationPermission()
         }

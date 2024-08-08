@@ -31,7 +31,6 @@ import dev.zuwu.weather.utils.IconSelector
 
 @Composable
 fun CurrentWeatherUI(forecast: ForecastResponse?) {
-    println(forecast?.current?.condition?.icon)
     // Current weather UI
     ElevatedCard(
         modifier = Modifier
