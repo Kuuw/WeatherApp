@@ -1,4 +1,4 @@
-## Weather App Project for Android
+## Weather App Project for Android (Unfinished)
 
 ### Technologies Used:
 - Kotlin
